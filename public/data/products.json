@@ -1,5 +1,15 @@
 [
   {
+    "id": "test",
+    "name": "test",
+    "category": "Nepal Rudraksha",
+    "origin": "Nepal",
+    "price": 123,
+    "badge": "New",
+    "description": "test",
+    "image": "images/products/test-1784159129152.jpg"
+  },
+  {
     "id": "5-mukhi-nepal",
     "name": "5 Mukhi Nepal Rudraksha",
     "category": "Nepal Rudraksha",
