@@ -1,0 +1,32 @@
+[
+  {
+    "id": "5-mukhi-nepal",
+    "name": "5 Mukhi Nepal Rudraksha",
+    "category": "Nepal Rudraksha",
+    "origin": "Nepal",
+    "price": 49,
+    "badge": "Popular",
+    "description": "Traditionally associated with calmness, focus and spiritual practice.",
+    "image": ""
+  },
+  {
+    "id": "7-mukhi-nepal",
+    "name": "7 Mukhi Nepal Rudraksha",
+    "category": "Nepal Rudraksha",
+    "origin": "Nepal",
+    "price": 89,
+    "badge": "Certified",
+    "description": "A natural Nepal bead selected for shape, clarity and authenticity.",
+    "image": ""
+  },
+  {
+    "id": "gaurishankar-rudraksha",
+    "name": "Gaurishankar Rudraksha",
+    "category": "Special Rudraksha",
+    "origin": "Nepal",
+    "price": 149,
+    "badge": "Featured",
+    "description": "A naturally joined Rudraksha traditionally connected with harmony and unity.",
+    "image": ""
+  }
+]
