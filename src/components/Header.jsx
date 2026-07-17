@@ -35,7 +35,7 @@ export default function Header() {
           target="_blank"
           rel="noreferrer"
         >
-          <MessageCircle size={18} /> WhatsApp
+          <MessageCircle size={28} /> WhatsApp
         </a>
 
         <button className="menu-button" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
