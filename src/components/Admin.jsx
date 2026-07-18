@@ -30,6 +30,7 @@ const newProduct = () => ({
   name: "",
   category: "Nepal Rudraksha",
   origin: "Nepal",
+  etsyUrl: "https://www.etsy.com/ca/listing/4439620402",
   variants: [
     { name: "Small", price: "" },
     { name: "Medium", price: "" },
@@ -306,6 +307,16 @@ export default function Admin({ onBack }) {
               <label className="wide">Product name<input name="name" value={form.name} onChange={updateField} required /></label>
               <label>Mukhi number<input type="number" name="mukhi" value={form.mukhi} onChange={updateField} /></label>
               <label>Origin<input name="origin" value={form.origin} onChange={updateField} /></label>
+              <label className="wide">
+                Etsy product URL
+                <input
+                  type="url"
+                  name="etsyUrl"
+                  value={form.etsyUrl || ""}
+                  onChange={updateField}
+                  placeholder="https://www.etsy.com/ca/listing/..."
+                />
+              </label>
               <div className="wide variant-price-editor">
                 <strong>Size variant prices (CAD)</strong>
                 <div className="variant-price-grid">
