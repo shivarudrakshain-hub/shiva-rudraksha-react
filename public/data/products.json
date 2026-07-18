@@ -493,15 +493,15 @@
       },
       {
         "name": "Large",
-        "price": 150
-      },
-      {
-        "name": "Collector",
         "price": 200
       },
       {
-        "name": "Super Collector",
+        "name": "Collector",
         "price": 350
+      },
+      {
+        "name": "Super Collector",
+        "price": 500
       }
     ],
     "etsyUrl": "https://www.etsy.com/ca/listing/4439620402"
