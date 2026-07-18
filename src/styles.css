@@ -39,7 +39,7 @@ img { max-width: 100%; }
 .shop-dropdown button:hover { background: #f7efe2; }
 .nav-actions { display: flex; gap: 10px; margin-left: 8px; }
 .outline-button, .green-button, .maroon-button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; padding: 0 20px; font-weight: 800; }
-.outline-button { color: var(--maroon); background: transparent; border: 1px solid var(--maroon); }
+.outline-button { width: 200px; color: var(--maroon); background: transparent; border: 1px solid var(--maroon); }
 .green-button { color: white; background: var(--green); border: 0; }
 .green-button svg { width: 18px; }
 .maroon-button { color: white; background: var(--maroon); border: 0; }
@@ -230,7 +230,7 @@ footer button { padding: 0; border: 0; background: transparent; color: white; }
 
 @media (max-width: 1100px) {
   .brand-logo { min-width: 230px; }
-  .nav-actions .outline-button { display: none; }
+  .nav-actions .outline-button { display: none;}
   .luxury-nav nav { gap: 0; }
   .luxury-nav nav > button, .shop-menu > button { padding: 10px 9px; font-size: 14px; }
 }
@@ -270,3 +270,8 @@ footer button { padding: 0; border: 0; background: transparent; color: white; }
   .thumbnails { grid-template-columns: repeat(3,1fr); }
   .birth-chart-intro h2, .page-heading h1 { font-size: 40px; }
 }
+
+.variant-selector { display: grid; gap: 8px; margin: 22px 0; }
+.variant-selector label { color: var(--maroon); font-weight: 800; }
+.variant-selector select { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #dfccb2; border-radius: 12px; background: white; color: #37251d; font-weight: 700; }
+.variant-selector small { color: var(--muted); line-height: 1.5; }
