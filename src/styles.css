@@ -169,7 +169,12 @@ footer button { padding: 0; border: 0; background: transparent; color: white; }
 .included-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 20px 0; }
 .included-list span { display: flex; align-items: center; gap: 7px; }
 .included-list svg { width: 17px; color: var(--green); }
-.whatsapp-button { min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--green); color: white; border-radius: 999px; font-weight: 900; }
+.product-action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.whatsapp-button, .buy-button { width: 100%; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; text-decoration: none; font-weight: 800; transition: transform .2s ease, opacity .2s ease; }
+.whatsapp-button { background: var(--green); color: white; }
+.buy-button { background: var(--maroon); color: white; }
+.whatsapp-button:hover, .buy-button:hover { transform: translateY(-2px); opacity: .92; }
+.whatsapp-button svg, .buy-button svg { width: 20px; height: 20px; }
 .disclaimer { color: var(--muted); font-size: 12px; }
 .fullscreen { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: rgba(0,0,0,.9); }
 .fullscreen figure { margin: 0; text-align: center; color: white; }

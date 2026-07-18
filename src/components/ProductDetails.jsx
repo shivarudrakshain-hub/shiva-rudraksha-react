@@ -3,6 +3,7 @@ import {
   CheckCircle2,
   MapPin,
   MessageCircle,
+  ShoppingCart,
   Ruler,
   ShieldCheck,
 } from "lucide-react";
@@ -83,14 +84,27 @@ export default function ProductDetails({ product, onBack }) {
             <span><CheckCircle2 /> X-ray</span>
           </div>
 
-          <a
-            className="whatsapp-button"
-            href={`https://wa.me/14372671257?text=${message}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <MessageCircle /> Enquire on WhatsApp
-          </a>
+          <div className="product-action-buttons">
+            <a
+              className="whatsapp-button"
+              href={`https://wa.me/14372671257?text=${message}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <MessageCircle /> Enquire on WhatsApp
+            </a>
+
+            {product.etsyUrl && (
+              <a
+                className="buy-button"
+                href={product.etsyUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <ShoppingCart /> Buy Now
+              </a>
+            )}
+          </div>
 
           <p className="disclaimer">
             Traditional spiritual descriptions are informational and are not
