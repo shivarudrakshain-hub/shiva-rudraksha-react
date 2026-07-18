@@ -147,9 +147,29 @@ footer button { padding: 0; border: 0; background: transparent; color: white; }
 .detail-header-inner, .admin-topbar-inner { min-height: 78px; display: flex; align-items: center; justify-content: space-between; }
 .detail-header button, .admin-topbar button { display: inline-flex; align-items: center; gap: 7px; border: 0; background: transparent; color: var(--maroon); }
 .details-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: 55px; padding-top: 55px; padding-bottom: 80px; }
-.detail-main-image { position: relative; aspect-ratio: 1/1; overflow: hidden; background: #f3e8d7; border-radius: 20px; }
-.detail-main-image > img { width: 100%; height: 100%; object-fit: contain; transition: transform .5s ease; }
-.detail-main-image:hover > img { transform: scale(1.08); }
+.detail-main-image {
+  position: relative;
+  overflow: hidden;
+  background: #f3e8d7;
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px;
+}
+
+.detail-main-image > img {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+  transition: transform .5s ease;
+}
+
+.detail-main-image:hover > img {
+  transform: scale(1.08);
+}
 .expand-button { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: white; }
 .thumbnails { display: grid; grid-template-columns: repeat(6,1fr); gap: 9px; margin-top: 12px; }
 .thumbnails button { overflow: hidden; padding: 4px; border: 1px solid var(--border); background: white; border-radius: 10px; }
