@@ -224,6 +224,7 @@ export default function App() {
                     <dl>
                       <div><dt>Ruling deity</dt><dd>{item.deity}</dd></div>
                       <div><dt>Planet</dt><dd>{item.planet}</dd></div>
+                      <div><dt>Nakshatra</dt><dd>{item.nakshatra}</dd></div>
                       <div><dt>Chakra</dt><dd>{item.chakra}</dd></div>
                     </dl>
                   </div>
@@ -231,7 +232,7 @@ export default function App() {
               ))}
             </div>
             <p className="tradition-note">
-              Deity, planetary and chakra associations differ among traditions and teachers.
+              Deity, planetary, nakshatra and chakra associations differ among traditions and teachers.
               These descriptions are spiritual information, not medical, legal or financial advice.
             </p>
           </div>

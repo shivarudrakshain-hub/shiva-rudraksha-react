@@ -2,8 +2,10 @@ import { MapPin, MessageCircle, ShieldCheck } from "lucide-react";
 import Gallery from "./Gallery";
 
 export default function ProductCard({ product, onOpen }) {
+  const prices = (product.variants || []).map((variant) => Number(variant.price)).filter(Number.isFinite);
+  const startingPrice = prices.length ? Math.min(...prices) : Number(product.price || 0);
   const message = encodeURIComponent(
-    `Hello Shiva Rudraksha Inc., I am interested in ${product.name}. Please share availability and ordering details.`
+    `Hello Shiva Rudraksha Inc., I am interested in ${product.name}. Please share size availability and ordering details.`
   );
 
   return (
@@ -31,8 +33,8 @@ export default function ProductCard({ product, onOpen }) {
 
         <div className="card-bottom">
           <div>
-            <small>CAD</small>
-            <strong>${Number(product.price).toFixed(2)}</strong>
+            <small>From CAD</small>
+            <strong>${startingPrice.toFixed(2)}</strong>
           </div>
           <button className="details-button" onClick={() => onOpen(product)}>
             View details
