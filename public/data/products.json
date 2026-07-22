@@ -1113,16 +1113,15 @@
         "price": 100,
         "etsyUrl": "https://www.etsy.com/ca/listing/4439620402",
         "images": {
-          "front": "images/products/13-mukhi-nepal-rudraksha/front.jpeg",
-          "back": "images/products/13-mukhi-nepal-rudraksha/back.jpeg",
-          "top": "images/products/13-mukhi-nepal-rudraksha/top.jpeg",
-          "bottom": "images/products/13-mukhi-nepal-rudraksha/bottom.jpeg",
-          "certificate": "images/products/13-mukhi-nepal-rudraksha/certificate.jpeg",
-          "xray": "images/products/13-mukhi-nepal-rudraksha/xray.jpeg"
+          "front": "images/products/13-mukhi-nepal-rudraksha/super-collector/front.jpg",
+          "back": "images/products/13-mukhi-nepal-rudraksha/super-collector/back.jpg",
+          "top": "images/products/13-mukhi-nepal-rudraksha/super-collector/top.jpg",
+          "bottom": "images/products/13-mukhi-nepal-rudraksha/super-collector/bottom.jpg",
+          "certificate": "images/products/13-mukhi-nepal-rudraksha/super-collector/certificate.jpg",
+          "xray": "images/products/13-mukhi-nepal-rudraksha/super-collector/xray.jpg"
         }
       }
-    ],
-    "etsyUrl": "https://www.etsy.com/ca/listing/4439620402"
+    ]
   },
   {
     "id": "14-mukhi-nepal-rudraksha",
