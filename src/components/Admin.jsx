@@ -30,9 +30,14 @@ const newProduct = () => ({
   name: "",
   category: "Nepal Rudraksha",
   origin: "Nepal",
-  price: "",
-  size: "",
-  weight: "",
+  etsyUrl: "https://www.etsy.com/ca/listing/4439620402",
+  variants: [
+    { name: "Small", price: "" },
+    { name: "Medium", price: "" },
+    { name: "Large", price: "" },
+    { name: "Collector", price: "" },
+    { name: "Super Collector", price: "" },
+  ],
   description: "",
   certificateAvailable: true,
   stockStatus: "Available",
@@ -42,6 +47,15 @@ const newProduct = () => ({
 
 const slugify = (name) =>
   name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+const normalizeVariants = (product = {}) => {
+  const names = ["Small", "Medium", "Large", "Collector", "Super Collector"];
+  const existing = Array.isArray(product.variants) ? product.variants : [];
+  return names.map((name) => {
+    const found = existing.find((item) => item.name === name);
+    return { name, price: found?.price ?? product.price ?? "" };
+  });
+};
 
 export default function Admin({ onBack }) {
   const [settings, setSettingsState] = useState({
@@ -80,6 +94,14 @@ export default function Admin({ onBack }) {
       [event.target.name]: event.target.value,
     }));
 
+  const updateVariantPrice = (index, value) =>
+    setForm((current) => ({
+      ...current,
+      variants: current.variants.map((variant, variantIndex) =>
+        variantIndex === index ? { ...variant, price: value } : variant
+      ),
+    }));
+
   async function connect(event) {
     event.preventDefault();
     setBusy(true);
@@ -88,6 +110,7 @@ export default function Admin({ onBack }) {
       await verifyRepository(settings);
       const loaded = (await loadRepositoryProducts(settings)).map((product) => ({
         ...product,
+        variants: normalizeVariants(product),
         images: { ...emptyImages(), ...(product.images || {}) },
       }));
       setProducts(loaded);
@@ -104,7 +127,10 @@ export default function Admin({ onBack }) {
   async function refresh() {
     setBusy(true);
     try {
-      const loaded = await loadRepositoryProducts(settings);
+      const loaded = (await loadRepositoryProducts(settings)).map((product) => ({
+        ...product,
+        variants: normalizeVariants(product),
+      }));
       setProducts(loaded);
       setStatus("Catalogue refreshed.");
     } catch (error) {
@@ -138,7 +164,7 @@ export default function Admin({ onBack }) {
 
   function editProduct(product) {
     resetForm();
-    setForm({ ...product, price: String(product.price) });
+    setForm({ ...product, variants: normalizeVariants(product) });
     setPreviews(
       Object.fromEntries(
         Object.entries(product.images || {})
@@ -173,7 +199,10 @@ export default function Admin({ onBack }) {
         ...form,
         id: form.id || slugify(form.name),
         mukhi: Number(form.mukhi) || null,
-        price: Number(form.price),
+        variants: form.variants.map((variant) => ({
+          name: variant.name,
+          price: Number(variant.price),
+        })),
         name: form.name.trim(),
         certificateAvailable: true,
         images,
@@ -277,10 +306,36 @@ export default function Admin({ onBack }) {
             <div className="field-grid">
               <label className="wide">Product name<input name="name" value={form.name} onChange={updateField} required /></label>
               <label>Mukhi number<input type="number" name="mukhi" value={form.mukhi} onChange={updateField} /></label>
-              <label>Price CAD<input type="number" step="0.01" name="price" value={form.price} onChange={updateField} required /></label>
               <label>Origin<input name="origin" value={form.origin} onChange={updateField} /></label>
-              <label>Size<input name="size" value={form.size} onChange={updateField} /></label>
-              <label>Weight<input name="weight" value={form.weight} onChange={updateField} /></label>
+              <label className="wide">
+                Etsy product URL
+                <input
+                  type="url"
+                  name="etsyUrl"
+                  value={form.etsyUrl || ""}
+                  onChange={updateField}
+                  placeholder="https://www.etsy.com/ca/listing/..."
+                />
+              </label>
+              <div className="wide variant-price-editor">
+                <strong>Size variant prices (CAD)</strong>
+                <div className="variant-price-grid">
+                  {form.variants.map((variant, index) => (
+                    <label key={variant.name}>
+                      {variant.name}
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={variant.price}
+                        onChange={(event) => updateVariantPrice(index, event.target.value)}
+                        required
+                      />
+                    </label>
+                  ))}
+                </div>
+                <small>The same six product images are used for every size variant.</small>
+              </div>
               <label>Stock status<select name="stockStatus" value={form.stockStatus} onChange={updateField}><option>Available</option><option>Out of stock</option><option>Reserved</option></select></label>
               <label className="wide">Description<textarea rows="4" name="description" value={form.description} onChange={updateField} /></label>
             </div>
@@ -317,8 +372,8 @@ export default function Admin({ onBack }) {
                 <img src={assetUrl(product.images?.front)} alt={product.name} />
                 <div>
                   <strong>{product.name}</strong>
-                  <span>{product.origin} • {product.size} • {product.weight}</span>
-                  <b>CAD ${Number(product.price).toFixed(2)}</b>
+                  <span>{product.origin} • 5 size variants</span>
+                  <b>From CAD ${Math.min(...normalizeVariants(product).map((variant) => Number(variant.price) || 0)).toFixed(2)}</b>
                   <em>{Object.values(product.images || {}).filter(Boolean).length}/6 images</em>
                 </div>
                 <div>

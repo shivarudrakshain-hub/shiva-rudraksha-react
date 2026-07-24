@@ -552,3 +552,10 @@
     font-size: 35px;
   }
 }
+
+.variant-price-editor { display: grid; gap: 10px; }
+.variant-price-editor > strong { color: #601018; }
+.variant-price-grid { display: grid; grid-template-columns: repeat(5, minmax(110px, 1fr)); gap: 10px; }
+.variant-price-editor small { color: #76645b; }
+@media (max-width: 900px) { .variant-price-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .variant-price-grid { grid-template-columns: 1fr; } }

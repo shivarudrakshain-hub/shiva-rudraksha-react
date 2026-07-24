@@ -3,16 +3,29 @@ import {
   CheckCircle2,
   MapPin,
   MessageCircle,
+  ShoppingCart,
   Ruler,
-  Scale,
   ShieldCheck,
 } from "lucide-react";
+import { useMemo, useState } from "react";
 import Gallery from "./Gallery";
 import Logo from "./Logo";
 
 export default function ProductDetails({ product, onBack }) {
+  const variants = useMemo(() => {
+    if (Array.isArray(product.variants) && product.variants.length) return product.variants;
+    return [
+      { name: "Small", price: Number(product.price || 0) },
+      { name: "Medium", price: Number(product.price || 0) },
+      { name: "Large", price: Number(product.price || 0) },
+      { name: "Collector", price: Number(product.price || 0) },
+      { name: "Super Collector", price: Number(product.price || 0) },
+    ];
+  }, [product]);
+
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const message = encodeURIComponent(
-    `Hello Shiva Rudraksha Inc., I am interested in ${product.name}. Please share availability, certificate and ordering details.`
+    `Hello Shiva Rudraksha Inc., I am interested in ${product.name} - ${selectedVariant.name} size (CAD $${Number(selectedVariant.price).toFixed(2)}). Please share availability, certificate and ordering details.`
   );
 
   return (
@@ -33,16 +46,33 @@ export default function ProductDetails({ product, onBack }) {
 
           <div className="information-grid">
             <span><MapPin /> Origin <strong>{product.origin}</strong></span>
-            <span><Ruler /> Size <strong>{product.size}</strong></span>
-            <span><Scale /> Weight <strong>{product.weight}</strong></span>
+            <span><Ruler /> Variants <strong>5 sizes</strong></span>
             <span><ShieldCheck /> Certificate <strong>Included</strong></span>
           </div>
 
           <p className="description">{product.description}</p>
 
+          <div className="variant-selector">
+            <label htmlFor="size-variant">Select bead size</label>
+            <select
+              id="size-variant"
+              value={selectedVariant.name}
+              onChange={(event) =>
+                setSelectedVariant(variants.find((variant) => variant.name === event.target.value) || variants[0])
+              }
+            >
+              {variants.map((variant) => (
+                <option key={variant.name} value={variant.name}>
+                  {variant.name} — CAD ${Number(variant.price).toFixed(2)}
+                </option>
+              ))}
+            </select>
+            <small>Product images are representative and shared across all size variants.</small>
+          </div>
+
           <div className="price-box">
-            <small>Price in Canadian dollars</small>
-            <strong>CAD ${Number(product.price).toFixed(2)}</strong>
+            <small>{selectedVariant.name} price in Canadian dollars</small>
+            <strong>CAD ${Number(selectedVariant.price).toFixed(2)}</strong>
           </div>
 
           <div className="included-list">
@@ -54,14 +84,27 @@ export default function ProductDetails({ product, onBack }) {
             <span><CheckCircle2 /> X-ray</span>
           </div>
 
-          <a
-            className="whatsapp-button"
-            href={`https://wa.me/14372671257?text=${message}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <MessageCircle /> Enquire on WhatsApp
-          </a>
+          <div className="product-action-buttons">
+            <a
+              className="whatsapp-button"
+              href={`https://wa.me/14372671257?text=${message}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <MessageCircle /> Enquire on WhatsApp
+            </a>
+
+            {product.etsyUrl && (
+              <a
+                className="buy-button"
+                href={product.etsyUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <ShoppingCart /> Buy Now
+              </a>
+            )}
+          </div>
 
           <p className="disclaimer">
             Traditional spiritual descriptions are informational and are not

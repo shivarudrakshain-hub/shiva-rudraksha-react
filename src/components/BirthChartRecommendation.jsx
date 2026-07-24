@@ -142,7 +142,7 @@ export default function BirthChartRecommendation() {
 
           <button type="submit" className="birth-chart-submit">
             <MessageCircle />
-            Send request through WhatsApp
+            Send Request via WhatsApp
           </button>
 
           <p className="birth-chart-note">

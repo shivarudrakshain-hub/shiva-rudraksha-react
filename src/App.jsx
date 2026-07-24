@@ -24,8 +24,7 @@ const categories = [
   "Gaurishankar",
   "Ganesh Rudraksha",
   "Rudraksha Combinations",
-  "Bracelets & Malas",
-  "Gemstones & Spiritual Products",
+  "Bracelets & Malas",  
 ];
 
 export default function App() {
@@ -133,7 +132,7 @@ export default function App() {
           <div className="nav-actions">
             <button className="outline-button" onClick={() => navigate("#shop")}>View Catalog</button>
             <a className="green-button" href="https://wa.me/14372671257" target="_blank" rel="noreferrer">
-              <MessageCircle /> Chat on WhatsApp
+              <MessageCircle /> Chat
             </a>
           </div>
         </div>
@@ -218,13 +217,14 @@ export default function App() {
             <div className="guide-grid">
               {guide.map((item) => (
                 <article className="guide-card" key={item.mukhi}>
-                  <div className="guide-number">{item.mukhi}</div>
+                  <div ></div>
                   <div>
                     <h2>{item.mukhi} Mukhi Rudraksha</h2>
                     <p className="guide-benefits">{item.benefits}</p>
                     <dl>
                       <div><dt>Ruling deity</dt><dd>{item.deity}</dd></div>
                       <div><dt>Planet</dt><dd>{item.planet}</dd></div>
+                      <div><dt>Nakshatra</dt><dd>{item.nakshatra}</dd></div>
                       <div><dt>Chakra</dt><dd>{item.chakra}</dd></div>
                     </dl>
                   </div>
@@ -232,7 +232,7 @@ export default function App() {
               ))}
             </div>
             <p className="tradition-note">
-              Deity, planetary and chakra associations differ among traditions and teachers.
+              Deity, planetary, nakshatra and chakra associations differ among traditions and teachers.
               These descriptions are spiritual information, not medical, legal or financial advice.
             </p>
           </div>
