@@ -23,20 +23,26 @@ export function assetUrl(path) {
 }
 
 export function normalizeProduct(product) {
-  const images = {
+  const legacyImages = {
     ...emptyImages(),
     ...(product.images || {}),
     front: product.images?.front || product.image || "",
   };
 
+  const variants = Array.isArray(product.variants) && product.variants.length
+    ? product.variants.map((variant) => ({
+        ...variant,
+        etsyUrl: variant.etsyUrl || product.etsyUrl || "",
+        // Keep only true size-specific image paths here. Product-level images
+        // remain available as a fallback until a size receives its own photos.
+        images: { ...emptyImages(), ...(variant.images || {}) },
+      }))
+    : [];
+
   return {
     ...product,
-    images: Object.fromEntries(
-      Object.entries(images).map(([key, value]) => [
-        key,
-        value ? assetUrl(value) : "",
-      ])
-    ),
+    variants,
+    images: legacyImages,
   };
 }
 

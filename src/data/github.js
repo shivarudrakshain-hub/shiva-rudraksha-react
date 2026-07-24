@@ -153,21 +153,26 @@ function productSlug(name) {
   );
 }
 
-export async function uploadSlotImage(settings, file, productName, slot) {
+export async function uploadSlotImage(settings, file, productName, slot, variantName = "") {
   const extension =
     (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") ||
     "jpg";
   const slug = productSlug(productName);
-  const path = `public/images/products/${slug}/${slot}.${extension}`;
+  const variantSlug = variantName ? productSlug(variantName) : "";
+  const path = variantSlug
+    ? `public/images/products/${slug}/${variantSlug}/${slot}.${extension}`
+    : `public/images/products/${slug}/${slot}.${extension}`;
   const existing = await getFile(settings, path);
   await putFile(
     settings,
     path,
     await fileToBase64(file),
-    `Upload ${slot} image for ${productName}`,
+    `Upload ${slot} image for ${productName}${variantName ? ` - ${variantName}` : ""}`,
     existing?.sha
   );
-  return `images/products/${slug}/${slot}.${extension}`;
+  return variantSlug
+    ? `images/products/${slug}/${variantSlug}/${slot}.${extension}`
+    : `images/products/${slug}/${slot}.${extension}`;
 }
 
 export async function removeImage(settings, imagePath) {

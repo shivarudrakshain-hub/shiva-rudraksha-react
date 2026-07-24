@@ -559,3 +559,55 @@
 .variant-price-editor small { color: #76645b; }
 @media (max-width: 900px) { .variant-price-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .variant-price-grid { grid-template-columns: 1fr; } }
+
+/* Variant-specific catalogue editor */
+.variant-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 18px;
+}
+.variant-tabs button {
+  border: 1px solid #d8bea0;
+  background: #fff8ea;
+  color: #601018;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.variant-tabs button.active {
+  background: #601018;
+  color: white;
+  border-color: #601018;
+}
+.variant-editor-card {
+  border: 1px solid #ead6bd;
+  background: #fffdf8;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+.variant-editor-card > h3:first-child {
+  margin-top: 0;
+  color: #601018;
+  font: 26px Georgia, serif;
+}
+@media (max-width: 520px) {
+  .variant-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .variant-tabs button:last-child {
+    grid-column: 1 / -1;
+  }
+  .variant-editor-card {
+    padding: 12px;
+  }
+}
+
+.variant-image-note {
+  margin: -0.35rem 0 1rem;
+  color: #6f6259;
+  font-size: 0.9rem;
+}

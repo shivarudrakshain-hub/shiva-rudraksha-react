@@ -7,25 +7,54 @@ import {
   Ruler,
   ShieldCheck,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Gallery from "./Gallery";
 import Logo from "./Logo";
+import { emptyImages } from "../data/catalogue";
 
 export default function ProductDetails({ product, onBack }) {
   const variants = useMemo(() => {
-    if (Array.isArray(product.variants) && product.variants.length) return product.variants;
+    if (Array.isArray(product.variants) && product.variants.length) {
+      return product.variants.map((variant) => ({
+        ...variant,
+        images: Object.fromEntries(
+          Object.keys(emptyImages()).map((key) => [
+            key,
+            variant.images?.[key] || product.images?.[key] || "",
+          ])
+        ),
+        etsyUrl: variant.etsyUrl || product.etsyUrl || "",
+      }));
+    }
+
     return [
-      { name: "Small", price: Number(product.price || 0) },
-      { name: "Medium", price: Number(product.price || 0) },
-      { name: "Large", price: Number(product.price || 0) },
-      { name: "Collector", price: Number(product.price || 0) },
-      { name: "Super Collector", price: Number(product.price || 0) },
+      {
+        name: "Medium",
+        price: Number(product.price || 0),
+        etsyUrl: product.etsyUrl || "",
+        images: { ...emptyImages(), ...(product.images || {}) },
+      },
     ];
   }, [product]);
 
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const [selectedVariantName, setSelectedVariantName] = useState(variants[0]?.name || "");
+
+  useEffect(() => {
+    setSelectedVariantName(variants[0]?.name || "");
+  }, [product.id, variants]);
+
+  const selectedVariant =
+    variants.find((variant) => variant.name === selectedVariantName) || variants[0];
+
+  const galleryProduct = {
+    ...product,
+    images: selectedVariant?.images || product.images,
+    fallbackImages: product.images || {},
+  };
+
+  const price = Number(selectedVariant?.price || 0);
   const message = encodeURIComponent(
-    `Hello Shiva Rudraksha Inc., I am interested in ${product.name} - ${selectedVariant.name} size (CAD $${Number(selectedVariant.price).toFixed(2)}). Please share availability, certificate and ordering details.`
+    `Hello Shiva Rudraksha Inc., I am interested in ${product.name} - ${selectedVariant?.name || ""} size (CAD $${price.toFixed(2)}). Please share availability, certificate and ordering details.`
   );
 
   return (
@@ -38,7 +67,7 @@ export default function ProductDetails({ product, onBack }) {
       </header>
 
       <main className="container details-layout">
-        <Gallery product={product} />
+        <Gallery product={galleryProduct} resetKey={selectedVariant?.name} />
 
         <section className="product-information">
           <span className="premium-label">{product.badge}</span>
@@ -46,7 +75,7 @@ export default function ProductDetails({ product, onBack }) {
 
           <div className="information-grid">
             <span><MapPin /> Origin <strong>{product.origin}</strong></span>
-            <span><Ruler /> Variants <strong>5 sizes</strong></span>
+            <span><Ruler /> Variants <strong>{variants.length} sizes</strong></span>
             <span><ShieldCheck /> Certificate <strong>Included</strong></span>
           </div>
 
@@ -56,23 +85,21 @@ export default function ProductDetails({ product, onBack }) {
             <label htmlFor="size-variant">Select bead size</label>
             <select
               id="size-variant"
-              value={selectedVariant.name}
-              onChange={(event) =>
-                setSelectedVariant(variants.find((variant) => variant.name === event.target.value) || variants[0])
-              }
+              value={selectedVariant?.name || ""}
+              onChange={(event) => setSelectedVariantName(event.target.value)}
             >
               {variants.map((variant) => (
                 <option key={variant.name} value={variant.name}>
-                  {variant.name} — CAD ${Number(variant.price).toFixed(2)}
+                  {variant.name} — CAD ${Number(variant.price || 0).toFixed(2)}
                 </option>
               ))}
             </select>
-            <small>Product images are representative and shared across all size variants.</small>
+            <small>The gallery, certificate, X-ray, price and Etsy link change with the selected size.</small>
           </div>
 
           <div className="price-box">
-            <small>{selectedVariant.name} price in Canadian dollars</small>
-            <strong>CAD ${Number(selectedVariant.price).toFixed(2)}</strong>
+            <small>{selectedVariant?.name} price in Canadian dollars</small>
+            <strong>CAD ${price.toFixed(2)}</strong>
           </div>
 
           <div className="included-list">
@@ -94,10 +121,10 @@ export default function ProductDetails({ product, onBack }) {
               <MessageCircle /> Enquire on WhatsApp
             </a>
 
-            {product.etsyUrl && (
+            {selectedVariant?.etsyUrl && (
               <a
                 className="buy-button"
-                href={product.etsyUrl}
+                href={selectedVariant.etsyUrl}
                 target="_blank"
                 rel="noreferrer"
               >

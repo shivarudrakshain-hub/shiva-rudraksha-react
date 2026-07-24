@@ -1,21 +1,33 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { IMAGE_SLOTS } from "../data/catalogue";
 
-export default function Gallery({ product, compact = false }) {
+export default function Gallery({ product, compact = false, resetKey = "" }) {
   const images = useMemo(
     () =>
       IMAGE_SLOTS.map((slot) => ({
         ...slot,
         src: product.images?.[slot.key] || "",
-      })).filter((item) => item.src),
+        fallbackSrc: product.fallbackImages?.[slot.key] || "",
+      })).filter((item) => item.src || item.fallbackSrc),
     [product]
   );
 
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const startX = useRef(null);
+  useEffect(() => {
+    setIndex(0);
+    setFullscreen(false);
+  }, [resetKey]);
+
   const active = images[index] || images[0];
+
+  const useFallback = (event, fallbackSrc) => {
+    if (!fallbackSrc || event.currentTarget.dataset.fallbackApplied === "true") return;
+    event.currentTarget.dataset.fallbackApplied = "true";
+    event.currentTarget.src = fallbackSrc;
+  };
 
   if (!active) return <div className="no-image">No image available</div>;
 
@@ -37,7 +49,7 @@ export default function Gallery({ product, compact = false }) {
   if (compact) {
     return (
       <div className="card-gallery" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-        <img src={active.src} alt={`${product.name} ${active.label}`} />
+        <img src={active.src || active.fallbackSrc} onError={(event) => useFallback(event, active.fallbackSrc)} alt={`${product.name} ${active.label}`} />
         {images.length > 1 && (
           <>
             <button
@@ -76,7 +88,7 @@ export default function Gallery({ product, compact = false }) {
           onTouchStart={touchStart}
           onTouchEnd={touchEnd}
         >
-          <img src={active.src} alt={`${product.name} ${active.label}`} />
+          <img src={active.src || active.fallbackSrc} onError={(event) => useFallback(event, active.fallbackSrc)} alt={`${product.name} ${active.label}`} />
           <button className="gallery-button left" onClick={previous}>
             <ChevronLeft />
           </button>
@@ -97,7 +109,7 @@ export default function Gallery({ product, compact = false }) {
               className={i === index ? "active" : ""}
               onClick={() => setIndex(i)}
             >
-              <img src={item.src} alt={item.label} />
+              <img src={item.src || item.fallbackSrc} onError={(event) => useFallback(event, item.fallbackSrc)} alt={item.label} />
               <span>{item.label}</span>
             </button>
           ))}
@@ -113,7 +125,7 @@ export default function Gallery({ product, compact = false }) {
             <ChevronLeft />
           </button>
           <figure>
-            <img src={active.src} alt={`${product.name} ${active.label}`} />
+            <img src={active.src || active.fallbackSrc} onError={(event) => useFallback(event, active.fallbackSrc)} alt={`${product.name} ${active.label}`} />
             <figcaption>
               {product.name} — {active.label} ({index + 1}/{images.length})
             </figcaption>
